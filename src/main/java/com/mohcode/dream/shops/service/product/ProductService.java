@@ -3,22 +3,34 @@ package com.mohcode.dream.shops.service.product;
 import com.mohcode.dream.shops.exceptions.ProductNotFoundException;
 import com.mohcode.dream.shops.model.Category;
 import com.mohcode.dream.shops.model.Product;
+import com.mohcode.dream.shops.repository.CategoryRepository;
 import com.mohcode.dream.shops.repository.ProductRepository;
 import com.mohcode.dream.shops.request.AddProductRequest;
+import com.mohcode.dream.shops.request.ProductUpdateRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public Product addProduct(AddProductRequest request) {
-        return null;
+
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet( () -> {
+                    Category newCategory = new Category();
+                    return categoryRepository.save(newCategory);
+                });
+        request.setCategory(category);
+        return productRepository.save(createProduct(request, category));
     }
     private Product createProduct(AddProductRequest request, Category category){
         return new Product(
@@ -39,8 +51,22 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(long id, Product product) {
-        return null;
+    public Product updateProduct(ProductUpdateRequest request, Long productId) {
+        return productRepository.findById(productId)
+                .map(existingProduct -> updateExistingProduct(existingProduct, request))
+                .map(productRepository::save)
+                .orElseThrow(() -> new ProductNotFoundException("Produit non trouvé avec l'ID: " + productId));
+    }
+    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request){
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setInventory(request.getInventory());
+        existingProduct.setDescription(request.getDescription());
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+        return existingProduct;
+
     }
 
     @Override

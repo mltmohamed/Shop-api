@@ -2,6 +2,7 @@ package com.mohcode.dream.shops.service.product;
 
 import com.mohcode.dream.shops.model.Product;
 import com.mohcode.dream.shops.request.AddProductRequest;
+import com.mohcode.dream.shops.request.ProductUpdateRequest;
 
 import java.util.List;
 
@@ -10,6 +11,9 @@ public interface IProductService {
 
     Product getProductById(long id);
     Product updateProduct(long id, Product product);
+
+    Product updateProduct(ProductUpdateRequest product, Long productId);
+
     void deleteProductById(long id);
 
     List<Product> getAllProducts();

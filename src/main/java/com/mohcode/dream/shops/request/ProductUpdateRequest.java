@@ -1,15 +1,11 @@
 package com.mohcode.dream.shops.request;
 
 import com.mohcode.dream.shops.model.Category;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
-
 @Data
-public class AddProductRequest {
+public class ProductUpdateRequest {
     private Long id;
     private String name;
     private String brand;
