@@ -1,16 +1,34 @@
 package com.mohcode.dream.shops.service.product;
 
 import com.mohcode.dream.shops.exceptions.ProductNotFoundException;
+import com.mohcode.dream.shops.model.Category;
 import com.mohcode.dream.shops.model.Product;
 import com.mohcode.dream.shops.repository.ProductRepository;
+import com.mohcode.dream.shops.request.AddProductRequest;
 
 import java.util.List;
 
 public class ProductService implements IProductService {
-    private ProductRepository productRepository;
+
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(AddProductRequest request) {
         return null;
+    }
+    private Product createProduct(AddProductRequest request, Category category){
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override

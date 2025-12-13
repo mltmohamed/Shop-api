@@ -1,11 +1,12 @@
 package com.mohcode.dream.shops.service.product;
 
 import com.mohcode.dream.shops.model.Product;
+import com.mohcode.dream.shops.request.AddProductRequest;
 
 import java.util.List;
 
 public interface IProductService {
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest request);
 
     Product getProductById(long id);
     Product updateProduct(long id, Product product);
