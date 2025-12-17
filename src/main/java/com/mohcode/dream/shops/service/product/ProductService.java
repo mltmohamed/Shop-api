@@ -7,10 +7,11 @@ import com.mohcode.dream.shops.repository.CategoryRepository;
 import com.mohcode.dream.shops.repository.ProductRepository;
 import com.mohcode.dream.shops.request.AddProductRequest;
 import com.mohcode.dream.shops.request.ProductUpdateRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
